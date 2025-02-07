@@ -1,4 +1,4 @@
-""" VOL module for pymep
+""" VOL module for pyepm
 
 This module contains the VOL class, which is used to store and manipulate data from the VOL model. The class has methods
 to analyze and visualize data from the VOL model.

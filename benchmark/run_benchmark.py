@@ -3,9 +3,9 @@ import time
 import numpy as np
 import seaborn as sns
 sys.path.append('../')
-from pymep.mep import MEP
-from pymep.MOL.PSF import PSF
-from pymep.MOL.PDB import PDB
+from pyepm.epm import EPM
+from pyepm.MOL.PSF import PSF
+from pyepm.MOL.PDB import PDB
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
@@ -18,7 +18,7 @@ def read_charges_file(charge_file) -> np.array:
 
 def run_trp_cage():
     pdb = PDB()
-    mep = MEP()
+    epm = EPM()
 
     print("Lendo PDB and PSF...")
     pdb.read("2luf_ph74_autopsf.pdb")
@@ -29,9 +29,9 @@ def run_trp_cage():
     gs = 1
 
     while gs >= 0.1:
-        print(f"MEP res: {gs}")
+        print(f"EPMap res: {gs}")
         start_time = time.time() 
-        dx = mep.calculate(pdb=pdb, charges=psf.charges, res=gs, gpu=False, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
+        dx = epm.calculate(pdb=pdb, charges=psf.charges, res=gs, gpu=False, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
         end_time = time.time()
         t = end_time - start_time
         gp = dx.xn * dx.yn * dx.zn
@@ -45,9 +45,9 @@ def run_trp_cage():
     gps_gpu = []
     gs = 1
     while gs >= 0.1:
-        print(f"MEP res: {gs}")
+        print(f"EPMap res: {gs}")
         start_time = time.time() 
-        dx = mep.calculate(pdb=pdb, charges=psf.charges, res=gs, gpu=True, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
+        dx = epm.calculate(pdb=pdb, charges=psf.charges, res=gs, gpu=True, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
         end_time = time.time()
         t = end_time - start_time
         gp = dx.xn * dx.yn * dx.zn
@@ -61,9 +61,9 @@ def run_trp_cage():
     plt.figure(figsize=(10,6))
     sns.set(style="whitegrid")
 
-    sns.lineplot(x=[gp / 1e6 for gp in gps_cpu], y=ts_cpu, marker='o', color='b', label='CPU - Execution Time')
+    sns.lineplot(x=[gp / 1e6 for gp in gps_cpu], y=ts_cpu, marker='o', color='b', label='CPU')
 
-    sns.lineplot(x=[gp / 1e6 for gp in gps_gpu], y=ts_gpu, marker='o', color='r', label='GPU - Execution Time')
+    sns.lineplot(x=[gp / 1e6 for gp in gps_gpu], y=ts_gpu, marker='o', color='r', label='GPU')
 
     plt.title('Benchmark: Execution Time vs. Number of Grid Points (CPU vs GPU)')
     plt.xlabel('Number of Grid Points (millions)')
@@ -76,22 +76,20 @@ def run_trp_cage():
     plt.show()
 
 
-def run_1o0h():
-    pdb = PDB()
-    mep = MEP()
-
+def run_8y3c():
+    epm = EPM()
     print("Lendo PDB and Charges...")
-    pdb.read("1o0h_protein.pdb")
-    charges = read_charges_file("1o0h_protein_xtb.charges")
+    pdb = PDB("8Y3C_protein_autopsf.pdb")
+    psf = PSF("8Y3C_protein_autopsf.psf")
 
     ts_cpu = []
     gps_cpu = []
     gs = 1
 
-    while gs >= 0.3:
-        print(f"MEP gs: {gs}")
+    while gs >= 0.4:
+        print(f"EPMap gs: {gs}")
         start_time = time.time() 
-        dx = mep.calculate(pdb=pdb, charges=charges, res=gs, gpu=False, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
+        dx = epm.calculate(pdb=pdb, charges=psf.charges, res=gs, gpu=False, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
         end_time = time.time()
         t = end_time - start_time
         gp = dx.xn * dx.yn * dx.zn
@@ -104,10 +102,10 @@ def run_1o0h():
     ts_gpu = []
     gps_gpu = []
     gs = 1
-    while gs >= 0.3:
-        print(f"MEP gs: {gs}")
+    while gs >= 0.4:
+        print(f"EPMap gs: {gs}")
         start_time = time.time() 
-        dx = mep.calculate(pdb=pdb, charges=charges, res=gs, gpu=True, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
+        dx = epm.calculate(pdb=pdb, charges=psf.charges, res=gs, gpu=True, margim=0.3, cutoff=30, gpus_id=[0], form="dx")
         end_time = time.time()
         t = end_time - start_time
         gp = dx.xn * dx.yn * dx.zn
@@ -122,11 +120,11 @@ def run_1o0h():
     plt.figure(figsize=(10,6))
     sns.set(style="whitegrid")
 
-    sns.lineplot(x=[gp / 1e6 for gp in gps_cpu], y=ts_cpu, marker='o', color='b', label='CPU - Execution Time')
+    sns.lineplot(x=[gp / 1e6 for gp in gps_cpu], y=ts_cpu, marker='o', color='b', label='CPU')
 
-    sns.lineplot(x=[gp / 1e6 for gp in gps_gpu], y=ts_gpu, marker='o', color='r', label='GPU - Execution Time')
+    sns.lineplot(x=[gp / 1e6 for gp in gps_gpu], y=ts_gpu, marker='o', color='r', label='GPU')
 
-    plt.title('Benchmark: Execution Time vs. Number of Grid Points (CPU vs GPU)')
+    plt.title('Benchmark: Execution Time vs. Number of Grid Points (CPU vs GPU) ')
     plt.xlabel('Number of Grid Points (millions)')
     plt.ylabel('Execution Time (seconds)')
 
@@ -138,5 +136,5 @@ def run_1o0h():
 
 
 # Run...
-run_trp_cage()
-run_1o0h()
+#run_trp_cage()
+run_8y3c()

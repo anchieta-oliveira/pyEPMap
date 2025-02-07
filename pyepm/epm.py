@@ -2,15 +2,15 @@ import os
 import numba
 import numpy as np
 from tqdm import tqdm
-from pymep.VOL.dx import DX
-from pymep.QM.aux import AUX
-from pymep.MOL.PDB import PDB
-from pymep.VOL.cube import Cube
-from pymep.QM.orca_out import OrcaOut
-from pymep.FF.forceField import ForceField
+from pyepm.VOL.dx import DX
+from pyepm.QM.aux import AUX
+from pyepm.MOL.PDB import PDB
+from pyepm.VOL.cube import Cube
+from pyepm.QM.orca_out import OrcaOut
+from pyepm.FF.forceField import ForceField
 from concurrent.futures import ThreadPoolExecutor
 
-class MEP:
+class EPM:
     def __init__(self) -> None:
         self.vol = None
         

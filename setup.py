@@ -5,13 +5,13 @@ def readme():
         return f.read()
 
 setup(
-    name="pymep",
+    name="pyepm",
     version="0.0.1",
-    description="The pyMEP (Python Molecular Electrostatic Potential) is a Python library designed for the calculation and visualization of Molecular Electrostatic Potentials (MEP).",
+    description="The pyEPMaps (Python Electrostatic Potential Maps) is a Python library designed for the calculation and visualization of Electrostatic Potential Maps (EPM), which can be accelerated by GPU.",
     long_description=readme(),
     long_description_content_type="text/markdown",
     author_email="anchieta.oliveira@biof.ufrj.br",
-    url="https://github.com/anchieta-oliveira/pyMEP",
+    url="https://github.com/anchieta-oliveira/pyEPMaps",
     license="MIT",
     packages=find_packages(),
     install_requires=[

@@ -19,7 +19,7 @@ and the atomic radii.
 # License
 ###############################################################################
 '''
-pymep
+pyepm
 Authors: -
 [The Federal University of Rio de Janeiro]
 Contact info:

@@ -1,6 +1,6 @@
-""" pyMEP
+""" pyepm
 
-The pyMEP (Python Molecular Electrostatic Potential) is a Python library designed for the calculation and visualization of Molecular Electrostatic Potentials (MEP).
+The pyepm (Python Molecular Electrostatic Potential) is a Python library designed for the calculation and visualization of Molecular Electrostatic Potentials (epm).
 """
 
 # Imports
@@ -8,9 +8,9 @@ The pyMEP (Python Molecular Electrostatic Potential) is a Python library designe
 import argparse as ap
 
 import numpy as np
-from pymep.MOL.PDB import PDB
-from pymep.MOL.xyz import XYZ
-from pymep.mep import MEP
+from pyepm.MOL.PDB import PDB
+from pyepm.MOL.xyz import XYZ
+from pyepm.epm import EPM
 
 # Parser
 ############################################################################################################
@@ -29,7 +29,7 @@ logo = """
 """
 
 # Create the parser
-parser = ap.ArgumentParser(description=f'{logo}\n\nThe pyMEP (Python Molecular Electrostatic Potential) is a Python library designed for the calculation and visualization of Molecular Electrostatic Potentials (MEP).',
+parser = ap.ArgumentParser(description=f'{logo}\n\nThe pyEPMaps (Python Electrostatic Potential Maps) is a Python library designed for the calculation and visualization of Electrostatic Potential Maps (EPM), which can be accelerated by GPU.',
                            formatter_class=ap.RawTextHelpFormatter )
 
 # Add the arguments
@@ -110,7 +110,7 @@ def is_out() -> str:
 
 gpu_id = args.gpu_id.split(","); gpu_id = list(map(lambda x: int(x), gpu_id))
 
-mep = MEP()
+epm = EPM()
 if args.pdb_file != "":
     mol = PDB(args.pdb_file)
 elif args.xyz_file != "":
@@ -122,7 +122,7 @@ else:
 
 
 if args.force_field:
-    vol = mep.calculate(pdb=mol, 
+    vol = epm.calculate(pdb=mol, 
                         FF=args.force_field, 
                         form=is_out(),
                         gpu=args.gpu,
@@ -136,10 +136,10 @@ if args.force_field:
     vol.write(args.output)
 
 elif args.mopac_file:
-    from pymep.QM.aux import AUX
+    from pyepm.QM.aux import AUX
     aux = AUX()
     aux.read_file(args.mopac_file)
-    vol = mep.calculate(pdb=mol, 
+    vol = epm.calculate(pdb=mol, 
                         aux=aux, 
                         form=is_out(), 
                         gpu=args.gpu,
@@ -153,10 +153,10 @@ elif args.mopac_file:
     vol.write(args.output)
 
 elif args.orca_file:
-    from pymep.QM.orca_out import OrcaOut
+    from pyepm.QM.orca_out import OrcaOut
     orc = OrcaOut()
     orc.read_file(args.orca_file)
-    vol = mep.calculate(pdb=mol, 
+    vol = epm.calculate(pdb=mol, 
                         orca_out=orc, 
                         form=is_out(), 
                         gpu=args.gpu,
@@ -170,9 +170,9 @@ elif args.orca_file:
     vol.write(args.output)
 
 elif args.psf_file:
-    from pymep.MOL.PSF import PSF
+    from pyepm.MOL.PSF import PSF
     psf = PSF(args.psf_file)
-    vol = mep.calculate(pdb=mol, 
+    vol = epm.calculate(pdb=mol, 
                         charges=psf.charges,
                         form=is_out(), 
                         gpu=args.gpu,
@@ -190,7 +190,7 @@ elif args.charge_file:
         c = file.readlines()
         charges = np.array(list(map(lambda x: float(x),c)))
 
-    vol = mep.calculate(pdb=mol, 
+    vol = epm.calculate(pdb=mol, 
                         charges=charges,
                         form=is_out(), 
                         gpu=args.gpu,
@@ -208,7 +208,7 @@ elif args.xtb_file_charge:
         c = file.readlines()
         charges = np.array(list(map(lambda x: float(x),c)))
 
-    vol = mep.calculate(pdb=mol, 
+    vol = epm.calculate(pdb=mol, 
                         charges=charges,
                         form=is_out(), 
                         gpu=args.gpu,

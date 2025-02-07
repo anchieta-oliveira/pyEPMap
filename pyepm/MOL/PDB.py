@@ -57,7 +57,7 @@ import logging
 import tempfile
 import subprocess
 import numpy as np
-from pymep.MOL.atom import Atom
+from pyepm.MOL.atom import Atom
 from scipy.spatial import distance
 from scipy.spatial.transform import Rotation as R
 
@@ -65,7 +65,7 @@ from scipy.spatial.transform import Rotation as R
 # License
 ###############################################################################
 '''
-pymep
+pyepm
 Authors: -
 [The Federal University of Rio de Janeiro]
 Contact info:

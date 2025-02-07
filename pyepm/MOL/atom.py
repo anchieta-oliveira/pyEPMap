@@ -22,8 +22,8 @@ Example
 import copy
 import logging
 
-from pymep.MOL.element_data import data
-from pymep.MOL.coordinates import Coordinates
+from pyepm.MOL.element_data import data
+from pyepm.MOL.coordinates import Coordinates
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -31,7 +31,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 # License
 ###############################################################################
 '''
-pymep
+pyepm
 Authors: -
 [The Federal University of Rio de Janeiro]
 Contact info:

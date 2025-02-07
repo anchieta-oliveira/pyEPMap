@@ -13,12 +13,12 @@ Atom class, which is used to store and manipulate data from atoms.
 
 # Imports
 ###############################################################################
-from pymep.MOL.atom import Atom
+from pyepm.MOL.atom import Atom
 
 # License
 ###############################################################################
 '''
-pymep
+pyepm
 Authors: -
 [The Federal University of Rio de Janeiro]
 Contact info:

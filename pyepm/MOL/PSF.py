@@ -35,7 +35,7 @@ import numpy as np
 # License
 ###############################################################################
 '''
-pymep
+pyepm
 Authors: -
 [The Federal University of Rio de Janeiro]
 Contact info:

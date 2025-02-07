@@ -9,11 +9,11 @@ Format: http://openmopac.net/manual/auxiliary.html
 """
 
 import numpy as np
-from pymep.QM.density_matrix import DensityMatrix
-from pymep.QM.overlap_matrix import OverlapMatrix
-from pymep.MOL.atom import Atom
-from pymep.QM.GTO import GTO
-from pymep.QM.MO import MO
+from pyepm.QM.density_matrix import DensityMatrix
+from pyepm.QM.overlap_matrix import OverlapMatrix
+from pyepm.MOL.atom import Atom
+from pyepm.QM.GTO import GTO
+from pyepm.QM.MO import MO
 
 
 

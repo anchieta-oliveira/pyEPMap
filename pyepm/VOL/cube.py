@@ -53,8 +53,8 @@ import tempfile
 
 import numpy as np
 
-from pymep.MOL.PDB import PDB
-from pymep.MOL.atom import Atom
+from pyepm.MOL.PDB import PDB
+from pyepm.MOL.atom import Atom
 
 # Set up logging
 logging.basicConfig(level = logging.INFO, format = '%(asctime)s - %(levelname)s - %(message)s')
@@ -62,7 +62,7 @@ logging.basicConfig(level = logging.INFO, format = '%(asctime)s - %(levelname)s 
 # License
 ###############################################################################
 '''
-pymep
+pyepm
 Authors: -
 [The Federal University of Rio de Janeiro]
 Contact info:

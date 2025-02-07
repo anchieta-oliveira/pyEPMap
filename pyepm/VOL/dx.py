@@ -30,7 +30,7 @@ import numpy as np
 
 from multiprocessing import Pool
 from scipy import interpolate
-from pymep.MOL.PDB import PDB
+from pyepm.MOL.PDB import PDB
 
 # Set up logging
 logging.basicConfig(level = logging.INFO, format = '%(asctime)s - %(levelname)s - %(message)s')
@@ -38,7 +38,7 @@ logging.basicConfig(level = logging.INFO, format = '%(asctime)s - %(levelname)s 
 # License
 ###############################################################################
 '''
-pymep
+pyepm
 Authors: -
 [The Federal University of Rio de Janeiro]
 Contact info:

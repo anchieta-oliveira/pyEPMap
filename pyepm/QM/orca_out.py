@@ -9,8 +9,8 @@ Format:
 
 import re
 import numpy as np
-from pymep.QM.GTO import GTO
-from pymep.QM.MO import MO
+from pyepm.QM.GTO import GTO
+from pyepm.QM.MO import MO
 
 
 
