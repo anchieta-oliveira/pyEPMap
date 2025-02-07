@@ -1,9 +1,9 @@
-# pyMEP
-The pyMEP (Python Molecular Electrostatic Potential) is a Python library designed for the calculation and visualization of Molecular Electrostatic Potentials (MEP), which can be accelerated by GPU.
+# pyEPMaps
+The pyEPMaps (Python Electrostatic Potential Maps) is a Python library designed for the calculation and visualization of Electrostatic Potential Maps (EPM), which can be accelerated by GPU.
 
 
-![Figure 1](https://github.com/anchieta-oliveira/pyMEP/blob/main/gallery/fig_8Y3C.png)
-Figure 1: Molecular Electrostatic Potential (MEP) map of di-nucleosome (closed form) protein alone (20,416 atoms and 10,289,600 grid points) and complex DNA protein (36,273 atoms and 18,298,710 grid points) (PDB ID: 8Y3C). You can see the electrostatic complementarity between the positive charges of the protein (blue) and the negative charges of the RNA (red).  
+![Figure 1](https://github.com/anchieta-oliveira/pyEPMaps/blob/main/gallery/fig_8Y3C.png)
+Figure 1: Electrostatic Potential Maps (EPM) of di-nucleosome (closed form) protein alone (20,416 atoms and 10,289,600 grid points) and complex DNA protein (36,273 atoms and 18,298,710 grid points) (PDB ID: 8Y3C). You can see the electrostatic complementarity between the positive charges of the protein (blue) and the negative charges of the RNA (red).  
 
 
 ## Prerequisites
@@ -16,13 +16,13 @@ Ensure you have the following installed on your system:
 ### Step 1: Clone the Repository
 Use Git to clone the repository to your local machine:
 ```bash
-git clone https://github.com/anchieta-oliveira/pyMEP
+git clone https://github.com/anchieta-oliveira/pyEPMaps
 ```
 
-### Step 2: Create a virtual environment dedicated to pyMEP
+### Step 2: Create a virtual environment dedicated to pyEPMaps
 Navigate to the cloned Git folder:
 ```bash
-cd pyMEP
+cd pyEPMaps
 ```
 Create a new Conda environment using the provided requirements.yml file:
 ```bash
@@ -36,20 +36,20 @@ python -m pip install -e .
 ```
 
 ## Usage Guide 
-### Step 1: Activate the pyMEP dedicated environment:
+### Step 1: Activate the pyEPMaps dedicated environment:
 ```bash
-conda activate pyMEP
+conda activate pyEPMaps
 ```
 
-### Step 2: Call pyMEP
-Displaying pyMEP usage options:
+### Step 2: Call pyEPMaps
+Displaying pyEPMaps usage options:
 ```bash
 python3.12 path/to/main.py --help
 ```
 
 Uso simples:
 ```bash
-python3.12  path/to/main.py -pdb to_pdb.pdb -psf to_psf.psf -o mep.cube
+python3.12  path/to/main.py -pdb to_pdb.pdb -psf to_psf.psf -o map.cube
 ```
 
 Arguments:
@@ -84,20 +84,20 @@ Arguments:
 
 
 ## Benchmark
-![Figura 2](https://github.com/anchieta-oliveira/pyMEP/blob/main/benchmark/2luf_cpu_gpu.png)
+![Figura 2](https://github.com/anchieta-oliveira/pyEPMaps/blob/main/benchmark/2luf_cpu_gpu.png)
 Figura 2: Benchmark using TRA-cage (PDB ID: 2LUF) varying grid space, resulting in a greater number of points on the grid. We used a computer with an i9-7900X, 20 threads (3.30 GHz) 32 GB RAM and NVIDIA GeForce GTX 1080 Ti.
 
-![Figure X](https://github.com/anchieta-oliveira/pyMEP/blob/main/gallery/fig_1PGL.png)
-Figure 1: Molecular Electrostatic Potential (MEP) map of Bean Pod Mottle Virus (BPMV) (PDB ID: 1PGL). pyMEP can handle large systems in a timely manner, using multiple GPUs; PDB 1PGL contains 525,600 atoms, a grid with 16,836,644 points.
+![Figure X](https://github.com/anchieta-oliveira/pyEPMaps/blob/main/gallery/fig_1PGL.png)
+Figure 1: Electrostatic Potential Maps (EPM) map of Bean Pod Mottle Virus (BPMV) (PDB ID: 1PGL). pyEPMaps can handle large systems in a timely manner, using multiple GPUs; PDB 1PGL contains 525,600 atoms, a grid with 16,836,644 points.
 
 ### Run the benchmark with your resources:
-Activate the pyMEP dedicated environment:
+Activate the pyEPMaps dedicated environment:
 ```bash
-conda activate pyMEP
+conda activate pyEPMaps
 ```
 
 ```bash
-cd to/pyMEP/benchmark
+cd to/pyEPMaps/benchmark
 ```
 
 Unzip data.zip and run the python script:
