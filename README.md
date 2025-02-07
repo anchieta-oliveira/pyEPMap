@@ -1,8 +1,8 @@
-# pyEPMaps
-The pyEPMaps (Python Electrostatic Potential Maps) is a Python library designed for the calculation and visualization of Electrostatic Potential Maps (EPM), which can be accelerated by GPU.
+# pyEPMap
+The pyEPMap (Python Electrostatic Potential Map) is a Python library designed for the calculation and visualization of Electrostatic Potential Maps (EPM), which can be accelerated by GPU.
 
 
-![Figure 1](https://github.com/anchieta-oliveira/pyEPMaps/blob/main/gallery/fig_8Y3C.png)
+![Figure 1](https://github.com/anchieta-oliveira/pyEPMap/blob/main/gallery/fig_8Y3C.png)
 Figure 1: Electrostatic Potential Maps (EPM) of di-nucleosome (closed form) protein alone (20,416 atoms and 10,289,600 grid points) and complex DNA protein (36,273 atoms and 18,298,710 grid points) (PDB ID: 8Y3C). You can see the electrostatic complementarity between the positive charges of the protein (blue) and the negative charges of the RNA (red).  
 
 
@@ -16,13 +16,13 @@ Ensure you have the following installed on your system:
 ### Step 1: Clone the Repository
 Use Git to clone the repository to your local machine:
 ```bash
-git clone https://github.com/anchieta-oliveira/pyEPMaps
+git clone https://github.com/anchieta-oliveira/pyEPMap
 ```
 
-### Step 2: Create a virtual environment dedicated to pyEPMaps
+### Step 2: Create a virtual environment dedicated to pyEPMap
 Navigate to the cloned Git folder:
 ```bash
-cd pyEPMaps
+cd pyEPMap
 ```
 Create a new Conda environment using the provided requirements.yml file:
 ```bash
@@ -36,13 +36,13 @@ python -m pip install -e .
 ```
 
 ## Usage Guide 
-### Step 1: Activate the pyEPMaps dedicated environment:
+### Step 1: Activate the pyEPMap dedicated environment:
 ```bash
-conda activate pyEPMaps
+conda activate pyEPMap
 ```
 
-### Step 2: Call pyEPMaps
-Displaying pyEPMaps usage options:
+### Step 2: Call pyEPMap
+Displaying pyEPMap usage options:
 ```bash
 python3.12 path/to/main.py --help
 ```
@@ -84,20 +84,20 @@ Arguments:
 
 
 ## Benchmark
-![Figura 2](https://github.com/anchieta-oliveira/pyEPMaps/blob/main/benchmark/2luf_cpu_gpu.png)
+![Figura 2](https://github.com/anchieta-oliveira/pyEPMap/blob/main/benchmark/2luf_cpu_gpu.png)
 Figura 2: Benchmark using TRA-cage (PDB ID: 2LUF) varying grid space, resulting in a greater number of points on the grid. We used a computer with an i9-7900X, 20 threads (3.30 GHz) 32 GB RAM and NVIDIA GeForce GTX 1080 Ti.
 
-![Figure X](https://github.com/anchieta-oliveira/pyEPMaps/blob/main/gallery/fig_1PGL.png)
-Figure 1: Electrostatic Potential Maps (EPM) map of Bean Pod Mottle Virus (BPMV) (PDB ID: 1PGL). pyEPMaps can handle large systems in a timely manner, using multiple GPUs; PDB 1PGL contains 525,600 atoms, a grid with 16,836,644 points.
+![Figure X](https://github.com/anchieta-oliveira/pyEPMap/blob/main/gallery/fig_1PGL.png)
+Figure 1: Electrostatic Potential Maps (EPM) map of Bean Pod Mottle Virus (BPMV) (PDB ID: 1PGL). pyEPMap can handle large systems in a timely manner, using multiple GPUs; PDB 1PGL contains 525,600 atoms, a grid with 16,836,644 points.
 
 ### Run the benchmark with your resources:
-Activate the pyEPMaps dedicated environment:
+Activate the pyEPMap dedicated environment:
 ```bash
-conda activate pyEPMaps
+conda activate pyEPMap
 ```
 
 ```bash
-cd to/pyEPMaps/benchmark
+cd to/pyEPMap/benchmark
 ```
 
 Unzip data.zip and run the python script:
