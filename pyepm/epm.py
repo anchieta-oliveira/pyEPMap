@@ -1,7 +1,9 @@
 import os
+import math
 import numba
 import numpy as np
 from tqdm import tqdm
+from numba import cuda
 from pyepm.VOL.dx import DX
 from pyepm.QM.aux import AUX
 from pyepm.MOL.PDB import PDB
@@ -26,8 +28,6 @@ class EPM:
         pass
     
     def calculate(self, pdb:PDB, aux:AUX=AUX(), orca_out:OrcaOut=OrcaOut(), res:float=0.5, gpu:bool=False, charges:np.array=np.array([]), FF:str="", form:str="cube", margim:float=0.3, cutoff: float = 15, gpus_id:list=[], unit:str=""):
-        if gpu:
-            import cupy as cp
             
         coords_atoms = pdb.coordinates
 
@@ -72,7 +72,7 @@ class EPM:
             zatoms = charges
 
         if gpu:
-            fun = self.comput_mep_multi_gpu
+            fun = self.comput_mep_gpu_numba
         else:
             fun = self.comput_mep
         
@@ -81,9 +81,6 @@ class EPM:
         zatoms = zatoms[mask]
 
         gmep = fun(catoms=coords_atoms, zatoms=zatoms, x=x, y=y, z=z, xn=d.xn, yn=d.yn, zn=d.zn, cutoff=cutoff, gpus_id=gpus_id)
-
-        if gpu:
-            gmep = cp.asnumpy(gmep)
 
         d.values = gmep.flatten()
 
@@ -111,6 +108,7 @@ class EPM:
 
         return self.vol
 
+    ########## NUMBA CPU #################
     @staticmethod
     @numba.njit(parallel=True, cache=True, fastmath=True)
     def comput_mep(catoms: np.array, zatoms: np.array, x: np.array, y: np.array, z: np.array, xn: int, yn: int, zn: int,  cutoff=20, gpus_id:list=[]) -> np.array:
@@ -125,6 +123,8 @@ class EPM:
             gmep += contribution.reshape((xn, yn, zn))
         return gmep
 
+
+    ########## CUPY #################
     @staticmethod    
     def comput_mep_gpu(catoms, zatoms, x, y, z, xn:int, yn:int, zn:int, cutoff=20, gpus_id:list=[]):
         import cupy as cp
@@ -187,5 +187,65 @@ class EPM:
 
                 for future in futures:
                     gmep += future.result().get()
+
+        return gmep
+
+
+
+    ########## NUMBA #################
+    @staticmethod
+    @cuda.jit(fastmath=True, cache=True)
+    def epm_numba(atc, g, z, cutoff, gout):
+        i = cuda.grid(1)
+        if i < g.shape[0]:
+            potential = 0.0
+            # Loop sobre as cargas usando memória constante
+            for j in range(atc.shape[0]):
+                dx = g[i, 0] - atc[j, 0]
+                dy = g[i, 1] - atc[j, 1]
+                dz = g[i, 2] - atc[j, 2]
+                rsq = dx * dx + dy * dy + dz * dz
+            
+                if rsq < cutoff:
+                    r = math.sqrt(rsq) + 1e-6
+                    potential += z[j] / r
+            gout[i] = potential
+
+
+    def comput_mep_gpu_numba(self, catoms, zatoms, x, y, z, xn:int, yn:int, zn:int, cutoff=20, gpus_id:list=[]):
+        grid = np.column_stack((x, y, z))
+        cutoff_sq = (cutoff - 1e-6) ** 2
+
+        n_gpus = len(gpus_id)
+        batch_size = catoms.shape[0] // n_gpus
+        gmep = np.zeros((xn * yn * zn), dtype=np.float32)  # Acumulador final
+
+        def process_gpu(gpu_id, start_idx, end_idx):
+            cuda.select_device(gpu_id)
+            
+            catoms_g = cuda.to_device(catoms[start_idx:end_idx])
+            zatoms_g = cuda.to_device(zatoms[start_idx:end_idx])
+            grid_g = cuda.to_device(grid)
+            grid_out = cuda.device_array((xn * yn * zn), dtype=np.float32)
+            
+
+            threads_per_block = 256
+            blocks_per_grid = (grid.shape[0] + (threads_per_block - 1)) // threads_per_block
+            
+
+            self.epm_numba[blocks_per_grid, threads_per_block](catoms_g, grid_g, zatoms_g, cutoff_sq, grid_out)
+            
+
+            return grid_out.copy_to_host()
+        
+        futures = []
+        with ThreadPoolExecutor(max_workers=n_gpus) as executor:
+            for i, gpu_id in enumerate(gpus_id):
+                start_idx = i * batch_size
+                end_idx = (i + 1) * batch_size if i < n_gpus - 1 else catoms.shape[0]
+                futures.append(executor.submit(process_gpu, gpu_id, start_idx, end_idx))
+            
+            for future in futures:
+                gmep += future.result()
 
         return gmep
