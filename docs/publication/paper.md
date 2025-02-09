@@ -4,7 +4,6 @@ tags:
   - GPU 
   - Parallel
   - Numba
-  - CuPy
   - CUDA
   - Multi-GPU
   - Electrostatic Potential
@@ -33,7 +32,7 @@ bibliography: paper.bib
 
 # Summary
 
-Electrostatic Potential Maps (EPM) represent the charge distribution in molecules, allowing the distribution of charges to be visualized. Knowledge of charge distributions is an important tool in structural biology and can be used to understand how molecules interact and other structural properties. So, we developed an application and package in Python to build 3D electrostatic maps of molecules, based on partial charges, parallelized on CPU (Numba) and multi-GPU (CuPy). The application makes it possible to calculate electrostatic maps in large molecular systems, such as biomolecules, with more than half a million atoms and a 3D grid with 16 million points efficiently. 
+Electrostatic Potential Maps (EPM) represent the charge distribution in molecules, allowing the distribution of charges to be visualized. Knowledge of charge distributions is an important tool in structural biology and can be used to understand how molecules interact and other structural properties. So, we developed an application and package in Python to build 3D electrostatic maps of molecules, based on partial charges, parallelized on CPU (Numba) and multi-GPU (Numba CUDA). The application makes it possible to calculate electrostatic maps in large molecular systems, such as biomolecules, with more than half a million atoms and a 3D grid with 16 million points efficiently. 
 
 # Statement of need
 
@@ -44,7 +43,7 @@ $$\phi(\boldsymbol{r}) = \sum_{i} \frac{q_i}{\|\boldsymbol{r} - \boldsymbol{r}_i
 
 where $q_i$ represents the partial charge of the atom $i$, and $\|\boldsymbol{r} - \boldsymbol{r}_i\|$ the distance between the atom and the specific point. To construct the 3D electrostatic potential maps, a 3D grid is built around the molecule, where the Coulomb potential is calculated for each point on the grid. However, for large systems, the computational cost can become prohibitive due to the need to evaluate the influence of each charge on millions of points on the grid [@STONE2023415].
 
-To mitigate this limitation, we have developed an computational package that employs massive parallelization both on CPU, using Numba [@lam2024numba], and on GPU, using CuPy [@cupy_learningsys2017]. This approach allows electrostatic map calculations to be made feasible for systems containing hundreds of thousands of atoms and high-resolution grids.
+To mitigate this limitation, we have developed an computational package that employs massive parallelization both on CPU, using Numba [@lam2024numba], and on GPU, using Numba CUDA [@numba-cuda]. This approach allows electrostatic map calculations to be made feasible for systems containing hundreds of thousands of atoms and high-resolution grids.
 
 # Example application
 
