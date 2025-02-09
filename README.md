@@ -85,6 +85,7 @@ Arguments:
 
 ## Benchmark
 ![Figura 2](https://github.com/anchieta-oliveira/pyEPMap/blob/main/benchmark/2luf_cpu_gpu.png)
+![](https://github.com/anchieta-oliveira/pyEPMap/blob/main/benchmark/2luf_cpu_gpu_bar.png)
 Figura 2: Benchmark using TRA-cage (PDB ID: 2LUF) varying grid space, resulting in a greater number of points on the grid. We used a computer with an Ryzen 9 3900X, 24 threads (3.8GHz - 4.6GHz) 64 GB RAM and NVIDIA GeForce GTX 1080 Ti.
 
 ![Figure X](https://github.com/anchieta-oliveira/pyEPMap/blob/main/gallery/fig_1PGL.png)
