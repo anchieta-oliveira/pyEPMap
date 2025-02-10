@@ -81,6 +81,8 @@ Arguments:
                         PDB file.
 -  `-xyz`, `--xyz_file` XYZ_FILE
                         XYZ file.
+-  `-u`, `--unit` UNIT
+                        Unit output.
 
 
 ## Benchmark
