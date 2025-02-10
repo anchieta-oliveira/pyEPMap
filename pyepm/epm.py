@@ -199,7 +199,6 @@ class EPM:
         i = cuda.grid(1)
         if i < g.shape[0]:
             potential = 0.0
-            # Loop sobre as cargas usando memória constante
             for j in range(atc.shape[0]):
                 dx = g[i, 0] - atc[j, 0]
                 dy = g[i, 1] - atc[j, 1]
