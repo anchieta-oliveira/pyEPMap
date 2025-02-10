@@ -218,7 +218,7 @@ class EPM:
 
         n_gpus = len(gpus_id)
         batch_size = catoms.shape[0] // n_gpus
-        gmep = np.zeros((xn * yn * zn), dtype=np.float32)  # Acumulador final
+        gmep = np.zeros((xn * yn * zn), dtype=np.float32) 
 
         def process_gpu(gpu_id, start_idx, end_idx):
             cuda.select_device(gpu_id)
