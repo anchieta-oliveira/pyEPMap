@@ -1,5 +1,6 @@
 import os
 import math
+import time
 import numba
 import numpy as np
 from tqdm import tqdm
@@ -195,7 +196,7 @@ class EPM:
     ########## NUMBA #################
     @staticmethod
     @cuda.jit(fastmath=True, cache=True)
-    def epm_numba(atc, g, z, cutoff, gout):
+    def epm_numba_old(atc, g, z, cutoff, gout):
         i = cuda.grid(1)
         if i < g.shape[0]:
             potential = 0.0
@@ -209,6 +210,42 @@ class EPM:
                     r = math.sqrt(rsq) + 1e-6
                     potential += z[j] / r
             gout[i] = potential
+
+    @staticmethod
+    @cuda.jit(fastmath=True, cache=True)
+    def epm_numba(atc, g, z, cutoff, gout):
+        shared_mem = cuda.shared.array(shape=256, dtype=numba.float32) 
+        tid = cuda.threadIdx.x
+        i = cuda.blockIdx.x 
+        j = tid 
+        stride = cuda.blockDim.x  
+        N = atc.shape[0]
+
+        l_pot = 0.0
+        while j < N:
+            dx = g[i, 0] - atc[j, 0]
+            dy = g[i, 1] - atc[j, 1]
+            dz = g[i, 2] - atc[j, 2]
+            rsq = dx * dx + dy * dy + dz * dz
+        
+            if rsq < cutoff:
+                r = math.sqrt(rsq) + 1e-6
+                l_pot += z[j] / r
+            j += stride 
+
+        shared_mem[tid] = l_pot
+        cuda.syncthreads()
+
+        # Reduce 
+        s = stride // 2
+        while s > 0:
+            if tid < s:
+                shared_mem[tid] += shared_mem[tid + s]
+            cuda.syncthreads()
+            s //= 2
+
+        if tid == 0:
+            gout[i] = shared_mem[0]
 
 
     def comput_mep_gpu_numba(self, catoms, zatoms, x, y, z, xn:int, yn:int, zn:int, cutoff=20, gpus_id:list=[]):
